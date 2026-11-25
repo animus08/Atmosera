@@ -31,6 +31,27 @@ COMMON_ALIASES = {
     "ladakh": "Leh",
 }
 
+# Major Indian State/Region baselines (Open-Meteo geocoding treats states as regions rather than cities)
+KNOWN_STATE_REGIONS = {
+    "punjab": {"name": "Punjab", "latitude": 30.9009, "longitude": 75.8573, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "haryana": {"name": "Haryana", "latitude": 29.0588, "longitude": 76.0856, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "rajasthan": {"name": "Rajasthan", "latitude": 27.0238, "longitude": 74.2179, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "kashmir": {"name": "Jammu & Kashmir", "latitude": 34.0837, "longitude": 74.7973, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "jammu": {"name": "Jammu", "latitude": 32.7266, "longitude": 74.8570, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "uttar pradesh": {"name": "Uttar Pradesh", "latitude": 26.8467, "longitude": 80.9462, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "up": {"name": "Uttar Pradesh", "latitude": 26.8467, "longitude": 80.9462, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "west bengal": {"name": "West Bengal", "latitude": 22.5726, "longitude": 88.3639, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "bengal": {"name": "West Bengal", "latitude": 22.5726, "longitude": 88.3639, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "bihar": {"name": "Bihar", "latitude": 25.0961, "longitude": 85.3131, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "gujarat": {"name": "Gujarat", "latitude": 23.0225, "longitude": 72.5714, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "maharashtra": {"name": "Maharashtra", "latitude": 19.0760, "longitude": 72.8777, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "delhi": {"name": "New Delhi", "latitude": 28.6139, "longitude": 77.2090, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "new delhi": {"name": "New Delhi", "latitude": 28.6139, "longitude": 77.2090, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "goa": {"name": "Goa", "latitude": 15.2993, "longitude": 74.1240, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "kerala": {"name": "Kerala", "latitude": 10.8505, "longitude": 76.2711, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "tamil nadu": {"name": "Tamil Nadu", "latitude": 13.0827, "longitude": 80.2707, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+}
+
 
 def normalize_location(location: str) -> str:
     """
@@ -85,7 +106,17 @@ def get_coordinates(location: str) -> dict:
     raw_location = normalize_location(location)
     clean_lower = raw_location.lower().strip()
 
-    # 1. Alias check
+    # 1. Check if input is a major state or composite multi-region string (e.g. "Punjab, Haryana, Chandigarh & West UP")
+    first_token = clean_lower
+    if "," in first_token:
+        first_token = first_token.split(",")[0].strip()
+    if "&" in first_token:
+        first_token = first_token.split("&")[0].strip()
+
+    if first_token in KNOWN_STATE_REGIONS:
+        return KNOWN_STATE_REGIONS[first_token]
+
+    # 2. Alias check
     search_query = COMMON_ALIASES.get(clean_lower, raw_location)
 
     # 2. First query attempt
