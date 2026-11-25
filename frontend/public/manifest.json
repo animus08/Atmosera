@@ -1,0 +1,17 @@
+{
+  "name": "Atmosera - Weather Intelligence Workspace",
+  "short_name": "Atmosera",
+  "description": "Conversational Weather Intelligence and Decision Support Workspace",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030408",
+  "theme_color": "#030408",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ]
+}
