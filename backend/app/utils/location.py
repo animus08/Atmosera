@@ -39,17 +39,34 @@ KNOWN_STATE_REGIONS = {
     "kashmir": {"name": "Jammu & Kashmir", "latitude": 34.0837, "longitude": 74.7973, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "jammu": {"name": "Jammu", "latitude": 32.7266, "longitude": 74.8570, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "uttar pradesh": {"name": "Uttar Pradesh", "latitude": 26.8467, "longitude": 80.9462, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "west up": {"name": "Uttar Pradesh", "latitude": 26.8467, "longitude": 80.9462, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "up": {"name": "Uttar Pradesh", "latitude": 26.8467, "longitude": 80.9462, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "madhya pradesh": {"name": "Madhya Pradesh", "latitude": 23.2599, "longitude": 77.4126, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "mp": {"name": "Madhya Pradesh", "latitude": 23.2599, "longitude": 77.4126, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "west bengal": {"name": "West Bengal", "latitude": 22.5726, "longitude": 88.3639, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "bengal": {"name": "West Bengal", "latitude": 22.5726, "longitude": 88.3639, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "bihar": {"name": "Bihar", "latitude": 25.0961, "longitude": 85.3131, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "gujarat": {"name": "Gujarat", "latitude": 23.0225, "longitude": 72.5714, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "maharashtra": {"name": "Maharashtra", "latitude": 19.0760, "longitude": 72.8777, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "karnataka": {"name": "Karnataka", "latitude": 12.9716, "longitude": 77.5946, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "telangana": {"name": "Telangana", "latitude": 17.3850, "longitude": 78.4867, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "andhra pradesh": {"name": "Andhra Pradesh", "latitude": 16.5062, "longitude": 80.6480, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "ap": {"name": "Andhra Pradesh", "latitude": 16.5062, "longitude": 80.6480, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "tamil nadu": {"name": "Tamil Nadu", "latitude": 13.0827, "longitude": 80.2707, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "kerala": {"name": "Kerala", "latitude": 10.8505, "longitude": 76.2711, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "odisha": {"name": "Odisha", "latitude": 20.2961, "longitude": 85.8245, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "orissa": {"name": "Odisha", "latitude": 20.2961, "longitude": 85.8245, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "assam": {"name": "Assam", "latitude": 26.1445, "longitude": 91.7362, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "jharkhand": {"name": "Jharkhand", "latitude": 23.3441, "longitude": 85.3096, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "chhattisgarh": {"name": "Chhattisgarh", "latitude": 21.2514, "longitude": 81.6296, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "himachal pradesh": {"name": "Himachal Pradesh", "latitude": 31.1048, "longitude": 77.1734, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "himachal": {"name": "Himachal Pradesh", "latitude": 31.1048, "longitude": 77.1734, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "uttarakhand": {"name": "Uttarakhand", "latitude": 30.3165, "longitude": 78.0322, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "delhi": {"name": "New Delhi", "latitude": 28.6139, "longitude": 77.2090, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "new delhi": {"name": "New Delhi", "latitude": 28.6139, "longitude": 77.2090, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "chandigarh": {"name": "Chandigarh", "latitude": 30.7333, "longitude": 76.7794, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
     "goa": {"name": "Goa", "latitude": 15.2993, "longitude": 74.1240, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
-    "kerala": {"name": "Kerala", "latitude": 10.8505, "longitude": 76.2711, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
-    "tamil nadu": {"name": "Tamil Nadu", "latitude": 13.0827, "longitude": 80.2707, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
+    "ladakh": {"name": "Ladakh", "latitude": 34.1526, "longitude": 77.5771, "country": "India", "country_code": "IN", "timezone": "Asia/Kolkata"},
 }
 
 
@@ -115,6 +132,10 @@ def get_coordinates(location: str) -> dict:
 
     if first_token in KNOWN_STATE_REGIONS:
         return KNOWN_STATE_REGIONS[first_token]
+
+    for state_key, state_data in KNOWN_STATE_REGIONS.items():
+        if len(state_key) > 3 and state_key in clean_lower:
+            return state_data
 
     # 2. Alias check
     search_query = COMMON_ALIASES.get(clean_lower, raw_location)
