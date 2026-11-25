@@ -131,40 +131,31 @@ def process_weather_for_user(
     return alert
 
 
-def check_weather_alerts(weather):
+def check_weather_alerts(weather, aqi=None, location=None, national_alerts=None):
     """
-    Check weather data and return
-    detected weather alerts.
-
-    This function is used by the
-    /alerts API.
+    Check weather data and return detected weather alerts,
+    incorporating meteorological parameters, AQI thresholds, and synoptic watches.
     """
+    if not isinstance(weather, dict):
+        weather = {}
 
-    temperature = weather.get(
-        "temperature",
-        0
-    )
+    temperature = weather.get("temperature", 0)
+    precipitation = weather.get("precipitation", 0)
+    wind_speed = weather.get("wind_speed", 0)
+    weather_code = weather.get("weather_code", 0)
+    loc = location or weather.get("location", "")
 
-    precipitation = weather.get(
-        "precipitation",
-        0
-    )
-
-    wind_speed = weather.get(
-        "wind_speed",
-        0
-    )
-
-    weather_code = weather.get(
-        "weather_code",
-        0
-    )
+    if national_alerts is None:
+        national_alerts = get_national_synoptic_bulletins()
 
     return detect_all_weather_alerts(
         temperature=temperature,
         precipitation=precipitation,
         wind_speed=wind_speed,
-        weather_code=weather_code
+        weather_code=weather_code,
+        aqi=aqi,
+        location=loc,
+        national_alerts=national_alerts
     )
 
 

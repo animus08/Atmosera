@@ -147,6 +147,9 @@ def get_weather_overview(location: str, models: str = "best_match"):
         hourly = unified_data.get("hourly", [])
         forecast = unified_data.get("forecast", [])
 
+        # National Synoptic Bulletins across India
+        national_alerts = get_national_synoptic_bulletins()
+
         # AQI
         try:
             aqi_res = get_air_quality_by_location(location)
@@ -154,10 +157,16 @@ def get_weather_overview(location: str, models: str = "best_match"):
         except Exception:
             aqi = {}
 
-        # Alerts
+        # Alerts (now fully grounded with AQI, location, and national watches)
         try:
-            alerts = check_weather_alerts(weather)
-        except Exception:
+            alerts = check_weather_alerts(
+                weather=weather,
+                aqi=aqi,
+                location=weather.get("location") or location,
+                national_alerts=national_alerts
+            )
+        except Exception as e:
+            print(f"[Weather API] Alert detection notice: {e}")
             alerts = []
 
         # Advisories
@@ -168,9 +177,6 @@ def get_weather_overview(location: str, models: str = "best_match"):
 
         # Risk Score
         risk = calculate_weather_risk_index(weather, aqi=aqi if aqi else None)
-
-        # National Synoptic Bulletins across India
-        national_alerts = get_national_synoptic_bulletins()
 
         return {
             "success": True,
@@ -187,8 +193,9 @@ def get_weather_overview(location: str, models: str = "best_match"):
         }
     except Exception as e:
         print(f"[Weather API] Resilient recovery from overview error: {e}")
+        fallback_loc = location.title() if location else "India"
         fallback_weather = {
-            "location": location.title() if location else "India",
+            "location": fallback_loc,
             "country": "India",
             "latitude": 28.61,
             "longitude": 77.20,
@@ -202,6 +209,17 @@ def get_weather_overview(location: str, models: str = "best_match"):
             "condition": "Mainly clear",
             "wind_speed": 10.0
         }
+        national_alerts = get_national_synoptic_bulletins()
+        try:
+            fallback_alerts = check_weather_alerts(
+                weather=fallback_weather,
+                aqi={},
+                location=fallback_loc,
+                national_alerts=national_alerts
+            )
+        except Exception:
+            fallback_alerts = []
+
         return {
             "success": True,
             "data": {
@@ -209,8 +227,8 @@ def get_weather_overview(location: str, models: str = "best_match"):
                 "hourly": [],
                 "forecast": [],
                 "aqi": {},
-                "alerts": [],
-                "national_alerts": get_national_synoptic_bulletins(),
+                "alerts": fallback_alerts,
+                "national_alerts": national_alerts,
                 "advisories": [],
                 "risk": {
                     "score": 10,
