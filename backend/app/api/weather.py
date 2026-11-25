@@ -5,7 +5,8 @@ from app.services.weather_service import (
     get_forecast_by_location,
     get_hourly_forecast_by_location,
     get_air_quality_by_location,
-    calculate_weather_risk_index
+    calculate_weather_risk_index,
+    get_unified_weather
 )
 from app.services.alert_service import check_weather_alerts, get_national_synoptic_bulletins
 from app.services.advisory_service import generate_advisories
@@ -141,21 +142,10 @@ def get_weather_overview(location: str, models: str = "best_match"):
     7-day daily forecast, air quality index, alerts, advisories, and risk score.
     """
     try:
-        weather = get_weather_by_location(location, models=models)
-
-        # Hourly
-        try:
-            hourly_res = get_hourly_forecast_by_location(location, hours=24) # Hourly does not need models for now, but we can pass it if we update it. Let's just pass models if supported. Actually, I didn't update get_hourly_forecast_by_location yet.
-            hourly = hourly_res.get("hourly", [])
-        except Exception:
-            hourly = []
-
-        # 7-day forecast
-        try:
-            forecast_res = get_forecast_by_location(location, forecast_days=7, models=models)
-            forecast = forecast_res.get("forecast", [])
-        except Exception:
-            forecast = []
+        unified_data = get_unified_weather(location, models=models)
+        weather = unified_data["weather"]
+        hourly = unified_data.get("hourly", [])
+        forecast = unified_data.get("forecast", [])
 
         # AQI
         try:
