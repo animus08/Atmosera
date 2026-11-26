@@ -62,7 +62,20 @@ frontend/dist/
 
 # Local Backups & Scratch
 *.bak
+*.bak_*
 *.tmp
 .backup_snapshot_v1/
 scratch/
 
+# Local Project Deliverables & Helper Scripts (keep locally; publish only report PDF)
+documents/*
+!documents/ATMOSERA Report.pdf
+
+# Images: track only curated images embedded in README.md
+images/*
+!images/logo.png
+!images/01_Main_Dashboard.png
+!images/03_Forecast_Section_and_Model_Selector.png
+!images/06_AI_Assistant_Live_Response.png
+!images/10_Precipitation_Radar.png
+!images/11_Alert_and_Advisory_Panel.png

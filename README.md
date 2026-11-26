@@ -1,193 +1,177 @@
-# 🌩️ Atmosera
-**Next-Generation AI Meteorological & Agricultural Climate Intelligence Platform**
+<p align="center">
+  <img src="images/logo.png" alt="Atmosera — Weather Intelligence" width="460" />
+</p>
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
-[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+<h1 align="center">Atmosera</h1>
+<p align="center">
+  <strong>AI-Powered Meteorological Intelligence &amp; Rural Advisory Dashboard</strong>
+</p>
 
----
+<p align="center">
+  <a href="https://atmosera.vercel.app"><img src="https://img.shields.io/badge/Live_App-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live App" /></a>
+  <a href="https://atmosera-api.onrender.com/docs"><img src="https://img.shields.io/badge/API_Docs-Render_FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI Docs" /></a>
+  <a href="https://react.dev"><img src="https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React 19" /></a>
+  <a href="https://vitejs.dev"><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" /></a>
+  <a href="https://www.sqlite.org"><img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" /></a>
+  <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
+</p>
 
-## 📖 Overview
-
-**Atmosera** is an intelligent, conversational climate intelligence and decision-support workspace uniting real-time satellite telemetry, numerical weather prediction (NWP) multi-models, 8-crop agro-climatic projections, and rural early-warning systems into a cohesive glassmorphic web dashboard.
-
-Instead of displaying raw meteorological data points that demand domain expertise, Atmosera delivers **actionable, contextual decisions** in **6 Indian languages** through natural-language conversation, voice recognition, SMS/WhatsApp rural broadcasts, and interactive GIS radar mapping.
-
----
-
-## ✨ Key Capabilities
-
-1. **🌾 8-Crop Climate Analytics Engine:** Grounded across 4 distinct Indian agro-climatic zones (Granary Plains, Arid Desert, Lower Gangetic Delta, Deccan Plateau). Delivers decadal anomaly-grounded yield projections for **Wheat, Rice, Jute, Cotton, Sugarcane, Mustard/Pulses, Pearl Millet (Bajra), and Tea/Plantation**.
-2. **🚨 Two-Tier Hazard Detection System:**
-   - **Tier 1 (District Level):** Real-time local hazard detection for extreme heat ($\ge 40^\circ\text{C}$), torrential rain ($\ge 10\text{ mm}$), gale-force winds ($\ge 40\text{ km/h}$), severe thunderstorms, and cold wave frost ($\le 3^\circ\text{C}$). Features calm "All Clear" indicators during stable weather.
-   - **Tier 2 (National Level):** Live synoptic hazard bulletins and regional watches across India (Western Himalayas, Indo-Gangetic Plains, Coastal Peninsular, etc.).
-3. **📱 Kisan Rural Advisory & WhatsApp/SMS Dispatch:** Automated agricultural advisories formatted for 1-click **WhatsApp** deep links (`wa.me`) and direct **Fast2SMS** mobile gateway dispatch with 10-digit Indian phone normalization.
-4. **🌐 NWP Multi-Model Selector:** Seamlessly switch forecasting engines between **Auto Best Match**, **ECMWF IFS (0.25° High-Res)**, **NCEP GFS**, and **DWD ICON**.
-5. **🎙️ Grounded Multilingual AI Assistant:** Powered by Groq Llama 3.3 70B & Gemini 3.8 Flash with an automated offline fallback engine. Automatically recognizes Devanagari Hindi and Romanized Hindi (`"kya aaj barish hogi"`) to deliver 100% Devanagari speech and text output.
-6. **👥 Multi-Tenant User Isolation:** Strict per-account profile synchronization with independent saved location lists, language preferences, and alert settings without cross-account contamination.
-7. **🛰️ Live Precipitation Radar & GIS Maps:** High-performance geospatial visualization powered by Leaflet, OpenStreetMap, and RainViewer live radar overlays.
-8. **⚡ Real-Time Push Telemetry:** WebSocket infrastructure (`/ws/alerts`) pushing severe meteorological warnings instantly to active workspaces with automatic HTTP polling fallback.
-9. **📱 Progressive Web App (PWA):** Installable on mobile and desktop with offline service worker caching for field workers.
+<p align="center">
+  <a href="documents/ATMOSERA%20Report.pdf">📄 Read the Major Project Report (PDF)</a>
+</p>
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## Overview
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            ATMOSERA ARCHITECTURE                            │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  Frontend (Client Layer):                                                   │
-│    • React 19 + Vite 8 + Tailwind CSS (Glassmorphic Theme)                  │
-│    • Web Speech API (SpeechRecognition + SpeechSynthesis)                   │
-│    • React-Leaflet + RainViewer Radar Overlay + React Globe                 │
-│    • Recharts 8-Crop Analytics + jsPDF Instant Report Export                │
-│                                                                             │
-│  Backend (Services & Inference Layer):                                      │
-│    • FastAPI (Python 3.11+) Asynchronous REST API + WebSockets              │
-│    • SQLAlchemy ORM + SQLite Embedded Persistence (Postgres Ready)          │
-│    • Open-Meteo REST API (Satellite & Global NWP Multi-Model Aggregator)    │
-│    • Groq Llama 3.3 70B / Google Gemini AI / Offline Heuristic Engine       │
-│    • Fast2SMS & WhatsApp Web Deep-Link Rural Outreach Gateways              │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+**Atmosera** is a client–server meteorological intelligence and rural decision-support web application built with **React 19 + Vite** and **FastAPI + SQLite**. It pairs live numerical weather predictions and US Air Quality Index feeds from **Open-Meteo** with deterministic hazard rules, interactive **Leaflet / RainViewer** radar maps, client-side PDF export, and a live-grounded **English / Hindi** conversational assistant with an offline 6-branch fallback engine.
+
+- **Live Frontend:** [atmosera.vercel.app](https://atmosera.vercel.app)
+- **Live Backend API & Swagger Docs:** [atmosera-api.onrender.com/docs](https://atmosera-api.onrender.com/docs)
+- **Full Documentation:** [ATMOSERA Report.pdf](documents/ATMOSERA%20Report.pdf)
 
 ---
 
-## 🚀 Quick Start Guide
+## Dashboard & Key Screens
+
+### Main Workspace & Overview
+Live telemetry summary showing saved locations, active local hazard count, live US AQI card, and current meteorological conditions retrieved on demand for the selected location.
+
+![Main Dashboard](images/01_Main_Dashboard.png)
+
+### Multi-Model Forecast & Live Metrics
+Switch dynamically across four Open-Meteo numerical models (**Auto Best Match**, **ECMWF IFS**, **NCEP GFS**, and **DWD ICON**) with real-time metric cards, hourly breakdown, five-day outlook, and one-click `jsPDF` + `html2canvas` dashboard export.
+
+![Forecast and Model Selector](images/03_Forecast_Section_and_Model_Selector.png)
+
+### Grounded Multilingual AI Assistant
+Reads live retrieved conditions, forecasts, AQI, and active alerts into its prompt for **Google Gemini (`gemini-3.8-flash`)** and **Groq (`llama-3.3-70b-versatile`)**, and automatically falls back cleanly to a 6-branch bilingual offline heuristic engine (**Rain**, **Farming**, **Aviation**, **Marine**, **Urban**, and **Default Summary**) in **English** or **Hindi** with **Web Speech API** voice support.
+
+![Grounded AI Assistant](images/06_AI_Assistant_Live_Response.png)
+
+### Two-Tier Local Alerts & National Synoptic Watch
+`detect_all_weather_alerts()` evaluates severe weather codes (`95/96/99`), heat ($\ge 40\,^\circ\text{C}$), cold wave ($\le 3.0\,^\circ\text{C}$), rain ($\ge 10\text{ mm}$), wind ($\ge 40\text{ km/h}$), US AQI severity bands (`150+` / `200+` / `300+`), and matching regional synoptic bulletins concurrently.
+
+![Two-Tier Alert and Advisory Panel](images/11_Alert_and_Advisory_Panel.png)
+
+### Live Precipitation Radar
+Interactive geospatial radar built on **Leaflet**, **OpenStreetMap**, and **RainViewer** radar tiles with maritime coordinate fallback support (e.g., South Bay of Bengal).
+
+![Live Precipitation Radar](images/10_Precipitation_Radar.png)
+
+---
+
+## Key Capabilities
+
+1. **Live Open-Meteo Weather, Forecast & US AQI:** District geocoding, 10-zone Indian maritime registry fallback, four selectable NWP models (`Best Match`, `ECMWF IFS`, `GFS`, `ICON`), hourly trends, 5/7-day forecasts, and six-pollutant AQI breakdown.
+2. **Concurrent Multi-Tier Alert & Risk Engine:** Evaluates all matching meteorological, AQI (`150+` / `200+` / `300+`), and national synoptic hazards simultaneously alongside a 5-factor composite risk score (`0–100`).
+3. **Rule-Based Advisories & Farmer Subscriptions:** Actionable heat, humidity/fungal-risk, rain, and wind advisories plus farmer phone registration (`farmer_subscribers`) and bulletin dispatch preview (`Fast2SMS` / `CallMeBot` gateway calls require live operator credentials; offline fallback returns simulated status).
+4. **Grounded Cloud AI + Offline Heuristic Engine:** Attempts Gemini then Groq with live-telemetry prompt grounding; supports toggling offline mode cleanly without runtime exceptions across all 6 domain branches.
+5. **Multilingual & Voice Interface:** `English` / `Hindi` assistant mode, browser Web Speech recognition & synthesis, and a navbar **Google Translate** widget for UI-level translation.
+6. **Real-Time WebSocket Stream & PWA Support:** `/ws/alerts` connection manager with test broadcast endpoint (`/ws/trigger_test_alert`), installable web-app manifest, and static shell service worker (`frontend/public/sw.js`).
+7. **Prototype Analytics Views:** Historical climate trend and crop-yield charts are currently prototype visualizations served from `/analytics/historical` synthetic series.
+
+---
+
+## Architecture & Tech Stack
+
+- **Frontend (Vercel):** React 19, Vite 8, Tailwind CSS, Recharts, Leaflet & React-Leaflet, RainViewer overlay, `jsPDF` + `html2canvas`, Web Speech API, PWA Service Worker.
+- **Backend (Render):** Python 3, FastAPI (26 REST + WebSocket routes), Uvicorn, Pydantic Settings, SQLAlchemy ORM + SQLite (`users`, `user_preferences`, `weather_logs`, `alerts`, `farmer_subscribers`).
+- **External Integrations:** Open-Meteo Weather/Forecast/AQI APIs, Google Gemini API, Groq API, OpenStreetMap & RainViewer tiles, Fast2SMS / CallMeBot (credential-gated).
+
+---
+
+## Quick Start Guide
 
 ### Option A: One-Click Launch (Windows)
-Double-click [`run_atmosera.bat`](run_atmosera.bat) in the repository root. This automatically activates the Python environment, launches the FastAPI server on port 8000, starts the Vite frontend on port 5173, and opens your browser.
+Run [`run_atmosera.bat`](run_atmosera.bat) from the repository root to start the FastAPI server on port `8000` and the Vite dev server on port `5173`.
 
-```powershell
-.\run_atmosera.bat
-```
+### Option B: Manual Setup (Two Terminals)
 
----
-
-### Option B: Manual Setup (Two Separate Terminals)
-
-#### 1. Backend Setup (Terminal 1)
+#### 1. Backend (Terminal 1)
 ```bash
 cd backend
+python -m venv venv
 
-# Activate virtual environment
 # Windows:
 .\venv\Scripts\activate
-# Linux/macOS:
+# Linux / macOS:
 source venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Start FastAPI server
 uvicorn app.main:app --reload --port 8000
 ```
-Backend Swagger API docs will be accessible at: `http://127.0.0.1:8000/docs`
+Interactive Swagger API docs: `http://127.0.0.1:8000/docs`
 
-#### 2. Frontend Setup (Terminal 2)
+#### 2. Frontend (Terminal 2)
 ```bash
 cd frontend
-
-# Install packages
 npm install
-
-# Start Vite development server
 npm run dev
 ```
-Frontend interface will open at: `http://localhost:5173`
+Frontend dev server: `http://localhost:5173`
 
 ---
 
-## 🌐 Production Cloud Deployment Guide
+## Cloud Deployment & Environment Configuration
 
-### 1. Backend Deployment (Render.com — 100% Free Web Service)
-1. Push your repository to GitHub.
-2. Sign in to [Render.com](https://render.com) and click **New +** → **Web Service**.
-3. Connect your repository and configure:
-   - **Root Directory**: `backend`
-   - **Runtime**: `Python 3`
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-   - **Instance Type**: `Free`
-4. In **Environment Variables**, set:
-   - `CORS_ORIGINS`: `*`
-   - `GROQ_API_KEY`: `your_groq_api_key_here`
-   - `FAST2SMS_API_KEY`: `your_fast2sms_api_key_here`
-5. Click **Create Web Service**. Render will output your live URL (e.g. `https://atmosera-api.onrender.com`).
+- **Backend (Render):** Root directory `backend`, build `pip install -r requirements.txt`, start `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
+- **Frontend (Vercel):** Root directory `frontend`, framework preset `Vite`, build `npm run build`, output `dist`, env variable `VITE_API_BASE_URL=https://atmosera-api.onrender.com`.
 
-> **💡 Zero Cold-Start Tip**: Set up a free 10-minute ping on [cron-job.org](https://cron-job.org) targeting your backend URL to keep it awake 24/7 with instant 0-second responses!
-
-### 2. Frontend Deployment (Vercel.com — 100% Free)
-1. Sign in to [Vercel.com](https://vercel.com) and click **Add New...** → **Project**.
-2. Import your GitHub repository.
-3. Configure settings:
-   - **Framework Preset**: `Vite`
-   - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-4. In **Environment Variables**, add:
-   - `VITE_API_BASE_URL`: `https://atmosera-api.onrender.com` *(your backend URL without trailing slash)*
-5. Click **Deploy**. Your application will be live globally in under a minute!
-
----
-
-## 🔐 Environment Configuration
-
-A configuration template is provided at [`backend/.env.example`](backend/.env.example):
+Environment template at [`backend/.env.example`](backend/.env.example):
 
 ```env
-# Server & CORS
-PORT=8000
-CORS_ORIGINS=*
 DATABASE_URL=sqlite:///./weathergpt.db
-
-# Meteorological & Geospatial
 WEATHER_API_KEY=open-meteo
-
-# Conversational AI (Optional - System includes offline fallback)
 GROQ_API_KEY=your_groq_api_key_here
 GEMINI_API_KEY=your_gemini_api_key_here
-
-# Kisan Rural Outreach SMS & WhatsApp Gateways
 FAST2SMS_API_KEY=your_fast2sms_api_key_here
-CALLMEBOT_APIKEY=your_callmebot_apikey_here
+CALLMEBOT_APIKEY=
+CORS_ORIGINS=
 ```
+
+*(Note: Atmosera runs weather retrieval and the 6-branch offline assistant even with empty AI/SMS keys.)*
 
 ---
 
-## 📂 Repository Structure
+## Verification Summary
 
-```
+From the evaluation documented in [ATMOSERA Report.pdf](documents/ATMOSERA%20Report.pdf):
+- **Backend Standalone Scripts:** `8 / 13` pass cleanly offline (`4` network-dependent Open-Meteo scripts blocked in offline sandbox, `1` skipped by design).
+- **Isolated API & WebSocket Checks:** `6 / 6` pass (`/`, `/health`, `/openapi.json`, `/ws/alerts`, `/ws/trigger_test_alert`, `/analytics/historical`).
+- **Live Browser & Cloud E2E Verification:** `5 / 5` verification suites (`AX-01`–`AX-05`) and `16` desktop/mobile/API screenshots captured against the live Vercel & Render deployments.
+
+---
+
+## Repository Structure
+
+```text
 Atmosera/
 ├── backend/
-│   ├── app/                            # FastAPI core application
-│   │   ├── api/                        # REST & WebSocket route endpoints
-│   │   ├── services/                   # Weather, NWP, LLM, alerts & subscription services
-│   │   ├── models/                     # SQLAlchemy database models
-│   │   ├── utils/                      # Smart geocoding & alias resolution
-│   │   └── database/                   # SQLite database connections & schemas
-│   ├── tests/                          # Automated backend test suites
-│   ├── requirements.txt                # Python backend dependencies
-│   ├── README.md                       # Backend service documentation
-│   └── .env.example                    # Environment variable template
+│   ├── app/
+│   │   ├── api/                        # FastAPI REST & WebSocket routers (26 routes)
+│   │   ├── database/                   # SQLAlchemy connection, CRUD & table init
+│   │   ├── models/                     # users, user_preferences, weather_logs, alerts, farmer_subscribers
+│   │   ├── services/                   # weather, alert_detector, advisory, llm_service, subscription
+│   │   └── utils/                      # Location normalization helpers
+│   ├── tests/                          # 13 standalone unit & integration scripts
+│   ├── requirements.txt
+│   └── .env.example
 ├── frontend/
-│   ├── src/                            # React components, views & services
-│   ├── public/                         # PWA manifest, service worker & icons
-│   ├── package.json                    # NPM packages & build scripts
-│   ├── vite.config.js                  # Vite configuration
-│   └── README.md                       # Frontend UI documentation
-├── run_atmosera.bat                    # One-click Windows workspace launcher
-├── run_weathergpt.bat                  # Backward-compatible launcher
-├── ARCHITECTURE_DIAGRAM.md             # End-to-end system architecture
-├── ATMOSERA_MASTER_DOCUMENTATION.md    # Comprehensive system manual
-├── PROJECT_SUMMARY_AND_FEATURES.md     # Feature matrix & specifications
-└── README.md                           # Repository overview
+│   ├── public/                         # PWA manifest & service worker
+│   └── src/                            # React components, services & styles
+├── documents/
+│   └── ATMOSERA Report.pdf
+├── images/                             # Curated screenshots & logo displayed in README.md
+├── run_atmosera.bat
+└── README.md
 ```
 
 ---
 
-## 📄 License
+## Authors & Supervision
+- **Anuj Modani** (`23BCON1747`) & **Sidharth Mathur** (`23BCON1975`) — Department of Computer Science & Engineering, JECRC University, Jaipur
+- **Project Guide:** Ms. Nupur Choudhary, Assistant Professor
+
+## License
 This project is licensed under the MIT License.
